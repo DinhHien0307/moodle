@@ -2519,8 +2519,6 @@ class core_renderer extends renderer_base {
         if ($userpicture->alttext) {
             if (!empty($user->imagealt)) {
                 $alt = $user->imagealt;
-            } else {
-                $alt = get_string('pictureof', '', fullname($user, $canviewfullnames));
             }
         } else {
             $alt = '';
@@ -2579,6 +2577,9 @@ class core_renderer extends renderer_base {
         }
 
         $attributes = array('href' => $url, 'class' => 'd-inline-block aabtn');
+        if ($this->page->bodyid == 'page-user-profile') {
+            unset($attributes['href']);
+        }
         if (!$userpicture->visibletoscreenreaders) {
             $attributes['tabindex'] = '-1';
             $attributes['aria-hidden'] = 'true';
