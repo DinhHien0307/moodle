@@ -213,3 +213,16 @@ Feature: Custom profile fields should be visible and editable by those with the 
     And I should not see "notvisible_field_information"
 
     And I should not see "Edit profile"
+
+  @javascript
+  Scenario: Accessibility, users can not click on profile image when on user's profile page.
+    Given I log in as "admin"
+    And I follow "Profile" in the user menu
+    Then "//a/child::img[contains(@class, 'userpicture ')]" "xpath_element" should not exist
+    And I am on "Course 1" course homepage
+    When I navigate to course participants
+    Then "//a/child::img[contains(@class, 'userpicture ')]" "xpath_element" should exist
+    When I follow "userwithinformation 1"
+    Then "//a/child::img[contains(@class, 'userpicture ')]" "xpath_element" should not exist
+    When I follow "Outline report"
+    Then "//a/child::img[contains(@class, 'userpicture ')]" "xpath_element" should exist
