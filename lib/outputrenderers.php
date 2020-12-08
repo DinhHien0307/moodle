@@ -2516,14 +2516,11 @@ class core_renderer extends renderer_base {
         $user = $userpicture->user;
         $canviewfullnames = has_capability('moodle/site:viewfullnames', $this->page->context);
 
+        $alt = '';
         if ($userpicture->alttext) {
             if (!empty($user->imagealt)) {
                 $alt = $user->imagealt;
-            } else {
-                $alt = get_string('pictureof', '', fullname($user, $canviewfullnames));
             }
-        } else {
-            $alt = '';
         }
 
         if (empty($userpicture->size)) {
@@ -2548,8 +2545,8 @@ class core_renderer extends renderer_base {
             $attributes['aria-hidden'] = 'true';
         }
 
+        $attributes['alt'] = $alt;
         if (!empty($alt)) {
-            $attributes['alt'] = $alt;
             $attributes['title'] = $alt;
         }
 
@@ -4175,7 +4172,7 @@ EOD;
                     $heading = fullname($user);
                 }
 
-                $imagedata = $this->user_picture($user, array('size' => 100));
+                $imagedata = $this->user_picture($user, array('size' => 100, 'link' => false));
 
                 // Check to see if we should be displaying a message button.
                 if (!empty($CFG->messaging) && has_capability('moodle/site:sendmessage', $context)) {
